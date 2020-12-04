@@ -11,13 +11,10 @@ services:
     volumes:
       - ./multcostura-back/:/usr/app
       - /usr/app/node_modules
-  client:
+  nextjs:
     build:
       context: ./multcostura-front
       dockerfile: Dockerfile
-    container_name: client
-    ports:
-      - "3000:80"
   nginx:
     build: ./nginx
     ports:

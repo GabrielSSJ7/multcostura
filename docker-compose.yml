@@ -11,6 +11,14 @@ services:
     volumes:
       - ./multcostura-back/:/usr/app
       - /usr/app/node_modules
+    links:
+      - mongo
+    networks:
+      - default 
+    logging:
+      options:
+        max-size: "500m"
+        max-file: "2"   
   nextjs:
     build:
       context: ./multcostura-front
@@ -19,3 +27,19 @@ services:
     build: ./nginx
     ports:
       - 80:80
+  mongo:
+      image: mongo:4.0
+      container_name: mongo
+      environment:
+        MONGO_INITDB_ROOT_USERNAME: multcostura
+        MONGO_INITDB_ROOT_PASSWORD: q1w2e3r4
+      volumes:
+        - /var/mongo/multcostura:/data/db
+      ports:
+        - "27017:27017"
+      expose:
+        - "27017"
+      networks:
+        - default    
+networks:
+  default:
